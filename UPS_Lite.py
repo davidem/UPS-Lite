@@ -1,45 +1,55 @@
-
 #!/usr/bin/env python
 import struct
 import smbus
 import sys
 import time
 
+class UPS():
+        
+        def __init__(self):
+                
+                # Set the bus port either 1 or 0
+                self.bus = smbus.SMBus(1)
+                # set low capacity alert for the battery
+                self.low_capacitiy = 20
 
-def readVoltage(bus):
+        def read_voltage(self):
 
-        "This function returns as float the voltage from the Raspi UPS Hat via the provided SMBus object"
-        address = 0x36
-        read = bus.read_word_data(address, 2)
-        swapped = struct.unpack("<H", struct.pack(">H", read))[0]
-        voltage = swapped * 1.25 /1000/16
-        return voltage
-
-
-def readCapacity(bus):
-        "This function returns as a float the remaining capacity of the battery connected to the Raspi UPS Hat via the provided SMBus object"
-        address = 0x36
-        read = bus.read_word_data(address, 4)
-        swapped = struct.unpack("<H", struct.pack(">H", read))[0]
-        capacity = swapped/256
-        return capacity
+                # This function returns the voltage as float from the UPS-Lite via SMBus object
+                address = 0x36
+                read = self.bus.read_word_data(address, 2)
+                swapped = struct.unpack("<H", struct.pack(">H", read))[0]
+                voltage = swapped * 1.25 /1000/16
+                return voltage
 
 
-bus = smbus.SMBus(1)  # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)
-
-while True:
-
- print "++++++++++++++++++++"
- print "Voltage:%5.2fV" % readVoltage(bus)
-
- print "Battery:%5i%%" % readCapacity(bus)
-
- if readCapacity(bus) == 100:
-
-        print "Battery FULL"
-
- if readCapacity(bus) < 20:
-
-        print "Battery LOW"
- print "++++++++++++++++++++"
- time.sleep(2)
+        def read_capacity(self):
+                
+                # This function returns the ramaining capacitiy in int as precentage of the battery connect to the UPS-Lite
+                address = 0x36
+                read = self.bus.read_word_data(address, 4)
+                swapped = struct.unpack("<H", struct.pack(">H", read))[0]
+                capacity = swapped/256
+                return int(capacity)
+        
+        def is_battery_full(self,capacity):
+                
+                # This function returns True if the battery is full, else return False
+                if(capacity == 100):
+                        return True
+                return False
+        
+        def is_battery_low(self,capacity):
+                
+                # This function returns True if the battery capacity is low, else return False
+                if(capacity <= self.low_capacity):
+                        return True
+                return False
+             
+def main():
+            
+        ups_lite = UPS()
+        voltage = ups_lite.read_voltage()
+        capacitiy = ups_lite.read_capacitiy()
+        is_low = ups_lite.is_battery_low(capacity)
+        is_full = ups_lite.is_battery_full(capacity)
