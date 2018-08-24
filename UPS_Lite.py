@@ -53,3 +53,8 @@ def main():
         capacitiy = ups_lite.read_capacitiy()
         is_low = ups_lite.is_battery_low(capacity)
         is_full = ups_lite.is_battery_full(capacity)
+        
+        print "[-] Voltage: %s" % voltage
+        print "[-] Capacitiy: %s" % capacity 
+        
+main()
