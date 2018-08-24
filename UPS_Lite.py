@@ -11,7 +11,7 @@ class UPS():
                 # Set the bus port either 1 or 0
                 self.bus = smbus.SMBus(1)
                 # set low capacity alert for the battery
-                self.low_capacitiy = 20
+                self.low_capacity = 20
 
         def read_voltage(self):
 
@@ -50,7 +50,7 @@ def main():
             
         ups_lite = UPS()
         voltage = ups_lite.read_voltage()
-        capacitiy = ups_lite.read_capacitiy()
+        capacity = ups_lite.read_capacity()
         is_low = ups_lite.is_battery_low(capacity)
         is_full = ups_lite.is_battery_full(capacity)
         
