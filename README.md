@@ -5,7 +5,7 @@ I like the (rewritten) script a lot, but it doesn't give much information. I als
 Please note that I'm not a seasoned developer / debugger and this is work in progress... ;)
 
 ## Wishlist... 
-as said: I'm spoiled with the output of pico_status.py:
+as said: I'm spoiled with the output of [pico_status.py](https://github.com/Siewert308SW/pico_status):
 ![alt text](https://github.com/Siewert308SW/pico_status/blob/master/pico_status.png "pico_status.py output")
 
 Stuff on my wishlist: 
