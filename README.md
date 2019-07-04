@@ -69,7 +69,7 @@ The downside is that it only covers 0x00 - 0x0d and 0xfe - 0xff, and the text st
 | 0x3f | - | - |00 | 
 
 ## Powering Mode
-I've noticed that 0x14 has the value 00 when on USB power and switches to FF when running on battery mode (and fully charged) and declines as the capacity of the battery diminishes. I'll do some more tests and see if I'm right.
+I've noticed that 0x14 has the value 00 when on USB power and switches to FF when running on battery mode (and fully charged) and declines as the capacity of the battery diminishes. I'll do some more tests and see if it can be used.
 
 ## Charge state
 
