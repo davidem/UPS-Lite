@@ -63,13 +63,17 @@ The downside is that it only covers 0x00 - 0x0d and 0xfe - 0xff, and the text st
 | 0x0d | RCOMP | - |00 | 
 | 0x0e | - | - |ff | 
 | 0x0f | - | - |ff | 
-| 0x14 | - | - |00 when on USB Power, FF and declining when on battery |
+| 0x14 | - | - |Another kind of charge state counter |
 | 0x15 | - | - |Fluctuates   | 
 | 0x3e | - | - |00 | 
 | 0x3f | - | - |00 | 
 
 ## Powering Mode
-I've noticed that 0x14 has the value 00 when on USB power and switches to FF when running on battery mode (and fully charged) and declines as the capacity of the battery diminishes. I'll do some more tests and see if it can be used.
+I've noticed that 0x14 has the value 00 when ~on USB power~ fully charged and switches to FF when running on battery mode (and fully charged) and declines as the capacity of the battery diminishes. Together with 0x15 it appears to be another kind of charge state counter. I had some hope to use this address as an easy way to tell if the Pi is running on battery or not... alas.. 
+
+
+
+
 
 ## Charge state
 
