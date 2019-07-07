@@ -63,8 +63,8 @@ The downside is that it only covers 0x00 - 0x0d and 0xfe - 0xff, and the text st
 | 0x0d | RCOMP | - |00 | 0xff00 |
 | 0x0e | - | - |ff | 0xffff |
 | 0x0f | - | - |ff | 0xffff |
-| 0x14 | - | - |Another kind of charge state counter | fluctuates |
-| 0x15 | - | - |Fluctuates   | fluctuates |
+| 0x14 | - |Another kind of charge state counter | fluctuates | fluctuates |
+| 0x15 | - | - |fluctuates   | fluctuates |
 | 0x3e | - | - |00 | 0x0000 |
 | 0x3f | - | - |00 | 0xff00 |
 
