@@ -45,28 +45,34 @@ Not much information is to be found, but Max17040.pdf offers an interesting tabl
 The downside is that it only covers 0x00 - 0x0d and 0xfe - 0xff, and the text states that all remaining addresses are reserved and undefined... 
 
 
-| data address | Function | Remark  | Value |
-| ------------- |-------------|-------|-------|
-| 0x00 | - | - |ff|
-| 0x01 | - | - |ff|
-| 0x02 | VCELL | Used for Voltage calculation | fluctuates  | 
-| 0x03 | VCELL | - | fluctuates|  
-| 0x04 | SOC | Used for State of charge | fluctuates |
-| 0x05 | SOC | - |fluctuates |
-| 0x06 | MODE | - |00 | 
-| 0x07 | MODE | - |00 | 
-| 0x08 | VERSION | - |00 | 
-| 0x09 | VERSION | - |02 | 
-| 0x0a | - | - |ff |
-| 0x0b | - | - |ff |
-| 0x0c | RCOMP | - |97 | 
-| 0x0d | RCOMP | - |00 | 
-| 0x0e | - | - |ff | 
-| 0x0f | - | - |ff | 
-| 0x14 | - | - |Another kind of charge state counter |
-| 0x15 | - | - |Fluctuates   | 
-| 0x3e | - | - |00 | 
-| 0x3f | - | - |00 | 
+| data address | Function | Remark  | byte Value | word Value
+| ------------- |-------------|-------|-------|-------|
+| 0x00 | - | - |ff|0xffff |
+| 0x01 | - | - |ff|fluctuates |
+| 0x02 | VCELL | Used for Voltage calculation | fluctuates  | fluctuates |
+| 0x03 | VCELL | - | fluctuates| fluctuates |
+| 0x04 | SOC | Used for State of charge | fluctuates |fluctuates |
+| 0x05 | SOC | - |fluctuates |fluctuates |
+| 0x06 | MODE | - |00 | 0x0000 |
+| 0x07 | MODE | - |00 | 0x0000 |
+| 0x08 | VERSION | - |00 | 0x0200 |
+| 0x09 | VERSION | - |02 | 0xff02 |
+| 0x0a | - | - |ff | 0xffff | 
+| 0x0b | - | - |ff | 0x97ff |
+| 0x0c | RCOMP | - |97 | 0x0097 | 
+| 0x0d | RCOMP | - |00 | 0xff00 |
+| 0x0e | - | - |ff | 0xffff |
+| 0x0f | - | - |ff | 0xffff |
+| 0x14 | - | - |Another kind of charge state counter | fluctuates |
+| 0x15 | - | - |Fluctuates   | fluctuates |
+| 0x3e | - | - |00 | 0x0000 |
+| 0x3f | - | - |00 | 0xff00 |
+
+
+
+
+
+
 
 ## Powering Mode
 I've noticed that 0x14 has the value 00 when ~on USB power~ fully charged and switches to FF when running on battery mode (and fully charged) and declines as the capacity of the battery diminishes. Together with 0x15 it appears to be another kind of charge state counter. I had some hope to use this address as an easy way to tell if the Pi is running on battery or not... alas.. 
