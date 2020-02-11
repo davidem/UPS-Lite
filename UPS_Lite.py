@@ -41,7 +41,7 @@ class UPS():
                 address = 0x36
                 read = self.bus.read_word_data(address, 4)
                 swapped = struct.unpack("<H", struct.pack(">H", read))[0]
-                capacity = swapped/256
+                capacity = int(swapped/256)
 
                 # Write capacity to tempfile. Needed to determine state.
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
@@ -49,20 +49,6 @@ class UPS():
                 tmpfile.close
 
                 return capacity
-
-        def is_battery_full(self,capacity):
-
-                # This function returns True if the battery is full, else return False
-                if(capacity == 100):
-                        return True
-                return False
-
-        def is_battery_low(self,capacity):
-
-                # This function returns True if the battery capacity is low, else return False
-                if(capacity <= self.low_capacity):
-                        return True
-                return False
 
         def read_status(self,capacity,prev_capacity):
 
@@ -73,7 +59,7 @@ class UPS():
                         status = "CHARGED"
                 elif(prev_capacity == "1000"):
                         status = "Too soon too tell"
-                elif(int(prev_capacity) >= int(capacity)):
+                elif(int(prev_capacity) > int(capacity)):
                         status = "DECHARGING"
                 elif(int(prev_capacity) < int(capacity)):
                         status = "CHARGING"
@@ -90,17 +76,11 @@ class UPS():
 
 def main():
 
-
-        # read capacity from tempfile
         ups_lite = UPS()
         prev_capacity = ups_lite.read_prev_capacity()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
-        # write capacity to tempfile
-        is_low = ups_lite.is_battery_low(capacity)
-        is_full = ups_lite.is_battery_full(capacity)
         status = ups_lite.read_status(capacity,prev_capacity)
-        # compare old and new capacity
         temp = ups_lite.read_temp()
 
         print ("[-] Voltage: %s" % voltage)
