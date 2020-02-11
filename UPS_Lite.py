@@ -45,10 +45,10 @@ class UPS():
 
                 # Write capacity to tempfile. Needed to determine state.
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
-                tmpfile.write(int(capacity))
+                tmpfile.write(str(capacity))
                 tmpfile.close
 
-                return int(capacity)
+                return capacity
 
         def is_battery_full(self,capacity):
 
@@ -73,9 +73,9 @@ class UPS():
                         status = "CHARGED"
                 elif(prev_capacity == "1000"):
                         status = "Too soon too tell"
-                elif(prev_capacity >= capacity):
+                elif(int(prev_capacity) >= int(capacity)):
                         status = "DECHARGING"
-                elif(prev_capacity < capacity):
+                elif(int(prev_capacity) < int(capacity)):
                         status = "CHARGING"
                 else:
                         status = "Too soon too tell"
@@ -103,9 +103,9 @@ def main():
         # compare old and new capacity
         temp = ups_lite.read_temp()
 
-        print ("[-] Voltage: %s") % voltage
-        print ("[-] Capacity: %s") % capacity
-        print ("[-] Status: %s") % status
-        print ("[-] Temp: %s") % temp
+        print ("[-] Voltage: %s" % voltage)
+        print ("[-] Capacity: %s" % capacity)
+        print ("[-] Status: %s" % status)
+        print ("[-] Temp: %s" % temp)
 
 main()
