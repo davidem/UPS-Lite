@@ -1,17 +1,19 @@
 #!/usr/bin/env python
+import os
 import struct
 import smbus
 import sys
 import time
 
 class UPS():
-        
+
         def __init__(self):
-                
+
                 # Set the bus port either 1 or 0
                 self.bus = smbus.SMBus(1)
                 # set low capacity alert for the battery
                 self.low_capacity = 20
+                self.full_capacity = 98
 
         def read_voltage(self):
 
@@ -24,37 +26,59 @@ class UPS():
 
 
         def read_capacity(self):
-                
+
                 # This function returns the ramaining capacitiy in int as precentage of the battery connect to the UPS-Lite
                 address = 0x36
                 read = self.bus.read_word_data(address, 4)
                 swapped = struct.unpack("<H", struct.pack(">H", read))[0]
                 capacity = swapped/256
                 return int(capacity)
-        
+
         def is_battery_full(self,capacity):
-                
+
                 # This function returns True if the battery is full, else return False
                 if(capacity == 100):
                         return True
                 return False
-        
+
         def is_battery_low(self,capacity):
-                
+
                 # This function returns True if the battery capacity is low, else return False
                 if(capacity <= self.low_capacity):
                         return True
                 return False
-             
+
+        def read_status(self,capacity):
+
+                # This function returns the status of  the battery: low (<20), full (100) or loading/drawing
+                if(capacity <= self.low_capacity):
+                        status = "Low"
+                elif(capacity >= self.full_capacity):
+                        status = "Full"
+                else:
+                        status = "Loading/Drawing"
+                return status
+
+        def read_temp(self):
+                import os
+                stream = os.popen('/opt/vc/bin/vcgencmd measure_temp')
+                temp = stream.read()
+                bla, temp = temp.split("=",2)
+                return temp
+
 def main():
-            
+
         ups_lite = UPS()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
         is_low = ups_lite.is_battery_low(capacity)
         is_full = ups_lite.is_battery_full(capacity)
-        
-        print("[-] Voltage: %s" % voltage)
-        print("[-] Capacitiy: %s" % capacity)
-        
+        status = ups_lite.read_status(capacity)
+        temp = ups_lite.read_temp()
+
+        print "[-] Voltage: %s" % voltage
+        print "[-] Capacitiy: %s" % capacity
+        print "[-] Status: %s" % status
+        print "[-] Temp: %s" % temp
+
 main()
