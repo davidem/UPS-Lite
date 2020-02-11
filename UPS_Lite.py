@@ -17,11 +17,11 @@ class UPS():
 
         def read_prev_capacity(self):
                 # This function is to read the previous capacity to determing battery Status
-                tmpfile= open("/tmp/ups_lite_capacity.tmp","r")
-                if tmpfile.mode == 'r':
-                    prev_capacity = tmpfile.read()
+                try:
+                    with open("/tmp/ups_lite_capacity.tmp","r") as tmpfile:
+                        prev_capacity = tmpfile.read()
                 except FileNotFoundError:
-                    prev_capacity = "1000"
+                        prev_capacity = "1000"
                 return prev_capacity
 
 
