@@ -22,7 +22,7 @@ class UPS():
                         prev_capacity = tmpfile.read()
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                return prev_capacity
+                return int(prev_capacity)
 
 
         def read_voltage(self):
@@ -73,7 +73,7 @@ class UPS():
                         status = "CHARGED"
                 elif(prev_capacity == "1000"):
                         status = "Too soon too tell"
-                elif(prev_capacity >= capacity):
+                elif(prev_capacity) >= capacity):
                         status = "DECHARGING"
                 elif(prev_capacity < capacity):
                         status = "CHARGING"
