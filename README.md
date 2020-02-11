@@ -69,27 +69,11 @@ The downside is that it only covers 0x00 - 0x0d and 0xfe - 0xff, and the text st
 | 0x3f | - | - |00 | 0xff00 |
 
 
-
-
-
-
-
 ## Powering Mode
 I'm looking for a simple way to check if the pi is running on battery or not. From the current 2 outputs from the script (voltage and capacity) I can't determine the source of power. 
 
-My first idea was to take a closer look at 0x14, but it turned out to be another kind of state counter. ~Then I noticed address 0x01, which in some specific states has a specific (fixed) value:~
+My first idea was to take a closer look at 0x14, but it turned out to be another kind of state counter.
 
-~
-| Value (hex) | Value (dec) | Possible State  | Remarks |
-| ------------- |-------------|-------|-------|
-| 0xd0ff |  | power > accu? | | 
-| 0xcfff |  | decharging ?  | | 
-| 0xd0ff |  | decharging ?  | | 
-| 0xd2ff |  | charging | | 
-| 0xd1ff |  | charged / checking?  | when battery <= 98%  |
-| 0xd2ff |  | charging  | | 
-| 0xd1ff |  | charged  | when Battery => 98% |
-~
 
 ## Charge state
 
