@@ -32,6 +32,12 @@ class UPS():
                 read = self.bus.read_word_data(address, 4)
                 swapped = struct.unpack("<H", struct.pack(">H", read))[0]
                 capacity = swapped/256
+
+                # Write capacity to tempfile. Needed to determine state.
+                tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
+                tmpfile.write(int(capacity))
+                tmpfile.close
+
                 return int(capacity)
 
         def is_battery_full(self,capacity):
@@ -68,12 +74,16 @@ class UPS():
 
 def main():
 
+
+        # read capacity from tempfile
         ups_lite = UPS()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
+        # write capacity to tempfile
         is_low = ups_lite.is_battery_low(capacity)
         is_full = ups_lite.is_battery_full(capacity)
         status = ups_lite.read_status(capacity)
+        # compare old and new capacity
         temp = ups_lite.read_temp()
 
         print "[-] Voltage: %s" % voltage
