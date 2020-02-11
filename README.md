@@ -79,6 +79,7 @@ I'm looking for a simple way to check if the pi is running on battery or not. Fr
 
 My first idea was to take a closer look at 0x14, but it turned out to be another kind of state counter. ~Then I noticed address 0x01, which in some specific states has a specific (fixed) value:~
 
+~
 | Value (hex) | Value (dec) | Possible State  | Remarks |
 | ------------- |-------------|-------|-------|
 | 0xd0ff |  | power > accu? | | 
@@ -88,7 +89,7 @@ My first idea was to take a closer look at 0x14, but it turned out to be another
 | 0xd1ff |  | charged / checking?  | when battery <= 98%  |
 | 0xd2ff |  | charging  | | 
 | 0xd1ff |  | charged  | when Battery => 98% |
-
+~
 
 ## Charge state
 
