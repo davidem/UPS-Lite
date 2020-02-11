@@ -20,6 +20,8 @@ class UPS():
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","r")
                 if tmpfile.mode == 'r':
                     prev_capacity = tmpfile.read()
+                except FileNotFoundError:
+                    prev_capacity = "1000"
                 return prev_capacity
 
 
@@ -69,10 +71,12 @@ class UPS():
                         status = "LOW"
                 elif(capacity >= self.full_capacity):
                         status = "CHARGED"
+                elif(prev_capacity = "1000"):
+                        status = "Too soon too tell"
                 elif(prev_capacity >= capacity):
-                        status = "CHARGING"
-                elif(prev_capacity < capacity):
                         status = "DECHARGING"
+                elif(prev_capacity < capacity):
+                        status = "CHARGING"
                 else:
                         status = "Too soon too tell"
                 return status
