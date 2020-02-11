@@ -71,7 +71,7 @@ class UPS():
                         status = "LOW"
                 elif(capacity >= self.full_capacity):
                         status = "CHARGED"
-                elif(prev_capacity = "1000"):
+                elif(prev_capacity == "1000"):
                         status = "Too soon too tell"
                 elif(prev_capacity >= capacity):
                         status = "DECHARGING"
