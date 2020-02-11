@@ -15,6 +15,15 @@ class UPS():
                 self.low_capacity = 20
                 self.full_capacity = 98
 
+        def read_prev_capacity(self):
+                # This function is to read the previous capacity to determing battery Status
+                tmpfile= open("/tmp/ups_lite_capacity.tmp","r")
+                if tmpfile.mode == 'r':
+                    prev_capacity = tmpfile.read()
+                    prev_capacity = "Too soon too tell"
+                return prev_capacity
+
+
         def read_voltage(self):
 
                 # This function returns the voltage as float from the UPS-Lite via SMBus object
@@ -54,15 +63,19 @@ class UPS():
                         return True
                 return False
 
-        def read_status(self,capacity):
+        def read_status(self,capacity,prev_capacity):
 
                 # This function returns the status of  the battery: low (<20), full (100) or loading/drawing
                 if(capacity <= self.low_capacity):
-                        status = "Low"
+                        status = "LOW"
                 elif(capacity >= self.full_capacity):
-                        status = "Full"
+                        status = "CHARGED"
+                elif(prev_capacity >= capacity):
+                        status = "CHARGING"
+                elif(prev_capacity < capacity):
+                        status = "DECHARGING"
                 else:
-                        status = "Loading/Drawing"
+                        status = "Too soon too tell"
                 return status
 
         def read_temp(self):
@@ -76,6 +89,7 @@ def main():
 
 
         # read capacity from tempfile
+        prev_capacity = ups_lite.read_prev_capacity()
         ups_lite = UPS()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
