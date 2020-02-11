@@ -45,7 +45,7 @@ class UPS():
 
                 # Write capacity to tempfile. Needed to determine state.
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
-                tmpfile.write(str(capacity))
+                tmpfile.write(int(capacity))
                 tmpfile.close
 
                 return int(capacity)
