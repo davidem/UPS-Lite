@@ -20,7 +20,6 @@ class UPS():
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","r")
                 if tmpfile.mode == 'r':
                     prev_capacity = tmpfile.read()
-                    prev_capacity = "Too soon too tell"
                 return prev_capacity
 
 
@@ -89,14 +88,14 @@ def main():
 
 
         # read capacity from tempfile
-        prev_capacity = ups_lite.read_prev_capacity()
         ups_lite = UPS()
+        prev_capacity = ups_lite.read_prev_capacity()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
         # write capacity to tempfile
         is_low = ups_lite.is_battery_low(capacity)
         is_full = ups_lite.is_battery_full(capacity)
-        status = ups_lite.read_status(capacity)
+        status = ups_lite.read_status(capacity,prev_capacity)
         # compare old and new capacity
         temp = ups_lite.read_temp()
 
