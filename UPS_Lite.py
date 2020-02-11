@@ -22,7 +22,7 @@ class UPS():
                         prev_capacity = tmpfile.read()
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                return int(prev_capacity)
+                return float(prev_capacity)
 
 
         def read_voltage(self):
@@ -48,7 +48,7 @@ class UPS():
                 tmpfile.write(str(capacity))
                 tmpfile.close
 
-                return int(capacity)
+                return float(capacity)
 
         def is_battery_full(self,capacity):
 
