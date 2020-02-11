@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import struct
 import smbus
@@ -103,9 +103,9 @@ def main():
         # compare old and new capacity
         temp = ups_lite.read_temp()
 
-        print "[-] Voltage: %s" % voltage
-        print "[-] Capacitiy: %s" % capacity
-        print "[-] Status: %s" % status
-        print "[-] Temp: %s" % temp
+        print ("[-] Voltage: %s") % voltage
+        print ("[-] Capacity: %s") % capacity
+        print ("[-] Status: %s") % status
+        print ("[-] Temp: %s") % temp
 
 main()
