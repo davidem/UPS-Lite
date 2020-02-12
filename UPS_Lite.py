@@ -76,7 +76,7 @@ class UPS():
                 else:
                     status = "Too_soon_to_tell"
                 return status
-                    
+
 
         def read_temp(self):
                 import os
