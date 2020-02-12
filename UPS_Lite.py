@@ -15,14 +15,17 @@ class UPS():
                 self.low_capacity = 20
                 self.full_capacity = 99
 
-        def read_prev_capacity(self):
+        def read_prev_values(self):
                 # This function is to read the previous capacity to determing battery Status
                 try:
                     with open("/tmp/ups_lite_capacity.tmp","r") as tmpfile:
-                        prev_capacity = tmpfile.read()
+                        all_values = tmpfile.read()
+
+                        prev_voltage,prev_capacity = all_values.split(':')
+
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                return int(prev_capacity)
+                return int(prev_capacity),int(prev_voltage)
 
 
         def read_voltage(self):
@@ -32,6 +35,11 @@ class UPS():
                 read = self.bus.read_word_data(address, 2)
                 swapped = struct.unpack("<H", struct.pack(">H", read))[0]
                 voltage = swapped * 1.25 /1000/16
+                # Write voltage to tempfile. Needed to determine state.
+                tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
+                tmpfile.write(str(voltage))
+                tmpfile.write(":")
+                tmpfile.close
                 return voltage
 
 
@@ -46,26 +54,29 @@ class UPS():
                 # Write capacity to tempfile. Needed to determine state.
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
                 tmpfile.write(str(capacity))
+                tmpfile.write(":")
                 tmpfile.close
 
                 return capacity
 
         def read_status(self,capacity,prev_capacity):
 
-                # This function returns the status of  the battery: low (<20), full (100) or loading/drawing
-                if(capacity <= self.low_capacity):
-                        status = "LOW"
-                elif(capacity >= self.full_capacity):
-                        status = "CHARGED"
+                # This function returns the status of  the battery: # C: low,charged,up/down, V: going up/down
+                if(capacity >= self.full_capacity):
+                    status = "CHARGED"
                 elif(prev_capacity == "1000"):
-                        status = "Too soon too tell"
-                elif(int(prev_capacity) > int(capacity)):
-                        status = "DECHARGING"
-                elif(int(prev_capacity) < int(capacity)):
-                        status = "CHARGING"
+                    status = "Too_soon_to_tell"
+                elif(float(prev_voltage) > float(voltage)) and (int(prev_capacity) >= int(capacity)):
+                    if(capacity <= self.low_capacity):
+                        status = "LOW"
+                    else:
+                        status = "DISCHARGING"
+                elif(float(prev_voltage) <= float(voltage)) and (int(prev_capacity) <= int(capacity)):
+                    status = "CHARGING"
                 else:
-                        status = "Too soon too tell"
+                    status = "Too_soon_to_tell"
                 return status
+                    
 
         def read_temp(self):
                 import os
@@ -77,7 +88,7 @@ class UPS():
 def main():
 
         ups_lite = UPS()
-        prev_capacity = ups_lite.read_prev_capacity()
+        prev_capacity = ups_lite.read_prev_values()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
         status = ups_lite.read_status(capacity,prev_capacity)
