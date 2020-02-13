@@ -91,7 +91,7 @@ def main():
         prev_capacity = ups_lite.read_prev_values()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
-        status = ups_lite.read_status(capacity,prev_capacity)
+        status = ups_lite.read_status(capacity,prev_capacity,prev_voltage)
         temp = ups_lite.read_temp()
 
         print ("[-] Voltage: %s" % voltage)
