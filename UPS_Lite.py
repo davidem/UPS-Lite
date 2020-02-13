@@ -61,7 +61,7 @@ class UPS():
                 return capacity
 
         def read_status(self,capacity,prev_capacity,prev_status):
-
+                print(capacity,prev_capacity,prev_status)  
                 # This function returns the status of  the battery: # C: low,charged,up/down, V: going up/down
                 if(capacity >= self.full_capacity):
                     status = "CHARGED"
