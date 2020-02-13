@@ -73,7 +73,6 @@ class UPS():
                     else:
                         status = "DISCHARGING"
                 elif(int(prev_capacity) < int(capacity)):
-                    low check
                     status = "CHARGING"
                 elif(int(prev_capacity) == int(capacity)):
                     status = prev_status
