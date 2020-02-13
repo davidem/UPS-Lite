@@ -25,7 +25,7 @@ class UPS():
 
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                return int(prev_capacity),int(prev_voltage)
+                return int(prev_voltage),int(prev_capacity)
 
 
         def read_voltage(self):
@@ -88,7 +88,8 @@ class UPS():
 def main():
 
         ups_lite = UPS()
-        prev_values = ups_lite.read_prev_values()
+        #prev_values = ups_lite.read_prev_values()
+        prev_voltage,prev_capacity = ups_lite.read_prev_values()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
         status = ups_lite.read_status(capacity,prev_capacity,prev_voltage)
