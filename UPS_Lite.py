@@ -65,11 +65,11 @@ class UPS():
                 # This function returns the status of  the battery: # C: low,charged,up/down, V: going up/down
                 if(capacity >= self.full_capacity):
                     status = "CHARGED"
-                elif(prev_capacity == "1000"):
-                    status = "Too_soon_to_tell"
                 # low if not charging and below 20 based on voltage, else discharging
                 elif(int(prev_capacity) > int(capacity)):
-                    if(capacity <= self.low_capacity):
+                    if(prev_capacity == "1000"):
+                       status = "Too_soon_to_tell"
+                   elif(capacity <= self.low_capacity):
                         status = "LOW"
                     else:
                         status = "DISCHARGING"
