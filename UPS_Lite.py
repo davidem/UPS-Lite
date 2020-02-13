@@ -25,7 +25,7 @@ class UPS():
 
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                        prev_voltage = "1000"
+                        prev_voltage = "1000.0001"
                 return float(prev_voltage),int(prev_capacity)
 
 
