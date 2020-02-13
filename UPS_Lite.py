@@ -62,29 +62,23 @@ class UPS():
 
         def read_status(self,capacity,prev_capacity,prev_status):
                 print(capacity,prev_capacity,prev_status)
-                # This function returns the status of  the battery: # C: low,charged,up/down, V: going up/down
-                #if(capacity >= self.full_capacity):
-                #    status = "CHARGED"
+                #This function returns the status of  the battery: # C: low,charged,up/down, V: going up/down
+                if(capacity >= self.full_capacity):
+                    status = "CHARGED"
                 # low if not charging and below 20 based on voltage, else discharging
-                #elif(int(prev_capacity) > int(capacity)) and (prev_capacity != "1000"):
-                #    if(capacity <= self.low_capacity):
-                #        status = "LOW"
-                #    else:
-                #        status = "DISCHARGING"
-                #elif(int(prev_capacity) > int(capacity)) and (prev_capacity == "1000"):
-                #       status = "Too_soon_to_tell"
-                #elif(int(prev_capacity) < int(capacity)):
-                #    status = "CHARGING"
-                #elif(int(prev_capacity) == int(capacity)):
-                #    status = prev_status
-                #else:
-                #    status = "Too_soon_to_tell"
-                print(int(prev_capacity),prev_capacity)
-                if(int(prev_capacity) == int(1000)):
-                    status = "Too_soon_to_tell"
+            elif(int(prev_capacity) > int(capacity)) and (prev_capacity != int(1000)):
+                    if(capacity <= self.low_capacity):
+                        status = "LOW"
+                    else:
+                        status = "DISCHARGING"
+                elif(int(prev_capacity) > int(capacity)) and (prev_capacity == int(1000)):
+                       status = "Too_soon_to_tell"
+                elif(int(prev_capacity) < int(capacity)):
+                    status = "CHARGING"
+                elif(int(prev_capacity) == int(capacity)):
+                    status = prev_status
                 else:
-                    status = "DISCHARGING"
-
+                    status = "Too_soon_to_tell"
 
                 # Append status to tmp File
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","a+")
