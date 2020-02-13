@@ -26,7 +26,7 @@ class UPS():
                 except FileNotFoundError:
                         prev_capacity = "1000"
                         prev_voltage = "1000"
-                return int(prev_voltage),int(prev_capacity)
+                return float(prev_voltage),int(prev_capacity)
 
 
         def read_voltage(self):
