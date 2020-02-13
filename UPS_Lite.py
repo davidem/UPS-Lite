@@ -80,7 +80,7 @@ class UPS():
                 #else:
                 #    status = "Too_soon_to_tell"
                 print(int(prev_capacity),prev_capacity)
-                if(int(prev_capacity) >= "101"):
+                if(int(prev_capacity) == int(1000)):
                     status = "Too_soon_to_tell"
                 else:
                     status = "DISCHARGING"
