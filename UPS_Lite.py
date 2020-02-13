@@ -13,7 +13,7 @@ class UPS():
                 self.bus = smbus.SMBus(1)
                 # set low capacity alert for the battery
                 self.low_capacity = 20
-                self.full_capacity = 99
+                self.full_capacity = 100 
 
         def read_prev_values(self):
                 # This function is to read the previous capacity to determing battery Status
