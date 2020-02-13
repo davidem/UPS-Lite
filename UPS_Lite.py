@@ -67,7 +67,7 @@ class UPS():
                 elif(prev_capacity == "1000"):
                     status = "Too_soon_to_tell"
                 # low if not charging and below 20 based on voltage, else discharging
-                elif((int(prev_capacity) > int(capacity)):
+                elif(int(prev_capacity) > int(capacity)):
                     if(capacity <= self.low_capacity):
                         status = "LOW"
                     else:
