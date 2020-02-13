@@ -66,7 +66,7 @@ class UPS():
                 if(capacity >= self.full_capacity):
                     status = "CHARGED"
                 # low if not charging and below 20 based on voltage, else discharging
-            elif(int(prev_capacity) > int(capacity)) and (prev_capacity != int(1000)):
+                elif(int(prev_capacity) > int(capacity)) and (prev_capacity != int(1000)):
                     if(capacity <= self.low_capacity):
                         status = "LOW"
                     else:
