@@ -21,13 +21,12 @@ class UPS():
                     with open("/tmp/ups_lite_capacity.tmp","r") as tmpfile:
                         all_values = tmpfile.read()
 
-                        prev_voltage,prev_capacity,prev_status = all_values.split(':')
+                        prev_capacity,prev_status = all_values.split(':')
 
                 except FileNotFoundError:
                         prev_capacity = "1000"
-                        prev_voltage = "1000.0001"
                         prev_status = "Too_soon_to_tell"
-                return float(prev_voltage),int(prev_capacity),prev_status
+                return int(prev_capacity),prev_status
 
 
         def read_voltage(self):
@@ -37,10 +36,6 @@ class UPS():
                 read = self.bus.read_word_data(address, 2)
                 swapped = struct.unpack("<H", struct.pack(">H", read))[0]
                 voltage = swapped * 1.25 /1000/16
-                # Write voltage to tempfile. Needed to determine state.
-                tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
-                tmpfile.write(str(voltage))
-                tmpfile.close
                 return voltage
 
 
@@ -53,7 +48,7 @@ class UPS():
                 capacity = int(swapped/256)
 
                 # Write capacity to tempfile. Needed to determine state.
-                tmpfile= open("/tmp/ups_lite_capacity.tmp","a+")
+                tmpfile= open("/tmp/ups_lite_capacity.tmp","w+")
                 tmpfile.write(":")
                 tmpfile.write(str(capacity))
                 tmpfile.close
@@ -98,7 +93,7 @@ class UPS():
 def main():
 
         ups_lite = UPS()
-        prev_voltage,prev_capacity,prev_status = ups_lite.read_prev_values()
+        prev_capacity,prev_status = ups_lite.read_prev_values()
         voltage = ups_lite.read_voltage()
         capacity = ups_lite.read_capacity()
         status = ups_lite.read_status(capacity,prev_capacity,prev_status)
