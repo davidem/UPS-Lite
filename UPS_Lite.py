@@ -69,7 +69,7 @@ class UPS():
                 elif(int(prev_capacity) > int(capacity)):
                     if(prev_capacity == "1000"):
                        status = "Too_soon_to_tell"
-                   elif(capacity <= self.low_capacity):
+                    elif(capacity <= self.low_capacity):
                         status = "LOW"
                     else:
                         status = "DISCHARGING"
