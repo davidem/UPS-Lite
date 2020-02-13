@@ -94,6 +94,13 @@ def main():
         status = ups_lite.read_status(capacity,voltage,prev_capacity,prev_voltage)
         temp = ups_lite.read_temp()
 
+        print ("**********************************************")
+        print ("*      	    UPS-Lite Status                 *")
+        print ("*      	 for Raspberry Pi Zero              *")
+        print ("**********************************************")
+        print (" ")
+        #print " ","- UPS-Lite firmware..........:",fw_version()
+        print (" ","- Voltage........:",voltage)
         print ("[-] Voltage: %s" % voltage)
         print ("[-] Capacity: %s" % capacity)
         print ("[-] Status: %s" % status)
