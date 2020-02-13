@@ -79,11 +79,11 @@ class UPS():
                 #    status = prev_status
                 #else:
                 #    status = "Too_soon_to_tell"
-                if(prev_capacity == "1000"):
+                if(int(prev_capacity) == "1000"):
                     status = "Too_soon_to_tell"
                 else:
                     status = "DISCHARGING"
-                    
+
 
                 # Append status to tmp File
                 tmpfile= open("/tmp/ups_lite_capacity.tmp","a+")
