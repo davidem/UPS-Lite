@@ -9,11 +9,30 @@ as said: I'm spoiled with the output of [pico_status.py](https://github.com/Siew
 ![alt text](https://github.com/Siewert308SW/pico_status/blob/master/pico_status.png "pico_status.py output")
 
 Stuff on my wishlist:
-- Powering mode
-- Charge state
-- Temperature
+- Powering mode: battery or outlet powered
+- Charge state: discharging, charging or charged
+- Temperature: nice to know, not a real must.
 
-## i2c & UPS-Lite
+## jan 2020 update
+As it turns out, the UPS-lite doesn't provide much information, except voltage, capacity and some kind of firmware version. Unlike the PiCO UPS I use for the rpi 3b+, power *always* flows via the battery, so there's no way of telling if the zero is connected to a power source other than the UPS-Lite. There's also no easy way to tell of the battery is charging or not. The PiCO has a dedicated data-address showing the charge-state, UPS-Lite doesn't.
+
+## My version of UPS-Lite.py
+So, here's what I did to the script to suit my needs:
+
+### Temp file
+My script is run ad-hoc, so it can't keep variables in memory. This is why I write the current capacity and state to a temp-file (/tmp/ups_lite_capacity.tmp) to be used to calculate the charge-state.
+
+### read_status Function
+I've written a new function to calculate the charge-state, comparing the current capacity with the previous capacity read from the tempfile. The previous state is also written to file and used in case the previous and current capacity are the same. I tried to use the voltage for calculation as well, but it fluctuates too much.
+
+### Look and feel
+I changed the output a little bit more to my liking :)
+
+### temperature
+The temperature of the Raspberry Pi itself can be read with 'vcgencmd', that's it. But, nice to know, so added to the output. 
+
+## older notes:
+### i2c & UPS-Lite
 i2cdetect shows that only one chip-address is accessible:
 
 ```
